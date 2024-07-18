@@ -6,6 +6,12 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
+interface DialogProps {
+	trigger: JSX.Element
+	title: string
+	content: JSX.Element
+}
+
 const Dialog = DialogPrimitive.Root
 
 const DialogTrigger = DialogPrimitive.Trigger
@@ -69,7 +75,7 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<DialogPrimitive.Title
 		ref={ref}
-		className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+		className={cn('text-xl font-bold leading-none tracking-tight', className)}
 		{...props}
 	/>
 ))
@@ -83,9 +89,24 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
+const DialogComponent = ({ trigger, title, content }: DialogProps) => {
+	return (
+		<Dialog>
+			<DialogTrigger asChild>{trigger}</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>{title}</DialogTitle>
+				</DialogHeader>
+				{content}
+			</DialogContent>
+		</Dialog>
+	)
+}
+
 export {
 	Dialog,
 	DialogClose,
+	DialogComponent,
 	DialogContent,
 	DialogDescription,
 	DialogFooter,
