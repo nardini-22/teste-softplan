@@ -1,7 +1,6 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
 import { userSchema, type userSchemaType } from '@/domain/user/user-model'
 import { signIn } from '@/http/signin'
-import EditToken from '@/lib/edit-token'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { HTTPError } from 'ky'
@@ -21,9 +20,8 @@ export function LoginPage() {
 
 	const onSubmit = async (data: userSchemaType) => {
 		try {
-			const { accessToken, user } = await signIn(data.email, data.password)
-			const editedToken = EditToken(accessToken, user.role)
-			Cookies.set('token', editedToken, { expires: 1 })
+			const { accessToken } = await signIn(data.email, data.password)
+			Cookies.set('token', accessToken, { expires: 1 })
 			toast.success('Login efetuado com sucesso. Redirecionando...', {
 				onAutoClose: () => {
 					navigate('/users')

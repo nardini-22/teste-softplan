@@ -1,5 +1,11 @@
 import { z } from 'zod'
 
+export interface User {
+	email: string
+	password: string
+	role: 'admin' | 'user'
+}
+
 export const userSchema = z.object({
 	email: z.coerce
 		.string({

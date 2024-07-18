@@ -2,11 +2,6 @@ import { ClientHttp } from './http-client'
 
 interface Response {
 	accessToken: string
-	user: {
-		email: string
-		role: string
-		id: number
-	}
 }
 
 export async function signIn(email: string, password: string) {
