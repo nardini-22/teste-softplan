@@ -1,8 +1,11 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { HTTPError } from 'ky'
 import { useForm } from 'react-hook-form'
-import { Toaster } from 'sonner'
+import { useNavigate } from 'react-router-dom'
+import { Toaster, toast } from 'sonner'
 import { userSchema, type userSchemaType } from './domain/user/user-model'
+import { signIn } from './http/signin'
 
 function App() {
 	const {
@@ -12,9 +15,22 @@ function App() {
 	} = useForm<userSchemaType>({
 		resolver: zodResolver(userSchema),
 	})
+	const navigate = useNavigate()
 
-	const onSubmit = (data: userSchemaType) => {
-		console.log(data)
+	const onSubmit = async (data: userSchemaType) => {
+		try {
+			const { accessToken } = await signIn(data.email, data.password)
+			toast.success('Login efetuado com sucesso. Redirecionando...', {
+				onAutoClose: () => {
+					navigate('/users')
+				},
+			})
+		} catch (error) {
+			if (error instanceof HTTPError) {
+				const message = await error.response.json()
+				toast.error(message)
+			}
+		}
 	}
 
 	return (
