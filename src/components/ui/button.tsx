@@ -44,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 		const Comp = asChild ? Slot : 'button'
 		return (
 			<Tooltip>
-				<TooltipTrigger>
+				<TooltipTrigger asChild>
 					<Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
 				</TooltipTrigger>
 				{tooltip && (

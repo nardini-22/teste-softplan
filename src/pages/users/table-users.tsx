@@ -1,30 +1,12 @@
-import {
-	Button,
-	Card,
-	CardContent,
-	Input,
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/components/ui'
-import type { User } from '@/domain/user/user-model'
-import { getUsers } from '@/http/get-users'
-import {
-	type ColumnDef,
-	type ColumnFiltersState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	useReactTable,
-} from '@tanstack/react-table'
-import { HTTPError } from 'ky'
-import { Pencil, Trash2 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { Button, Card, CardContent, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui"
+import { User } from "@/domain/user/user-model"
+import { getUsers } from "@/http/get-users"
+import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table"
+import { HTTPError } from "ky"
+import { Pencil, Trash2 } from "lucide-react"
+import { useMemo, useState } from "react"
 
-export const UsersPage = () => {
+export const TableUsers = () => {
 	const teste = async () => {
 		try {
 			const res = await getUsers()
@@ -36,9 +18,10 @@ export const UsersPage = () => {
 		}
 	}
 
-	teste()
-	const fallbackData: User[] = []
-	const columns: ColumnDef<User>[] = useMemo(
+  const [data, setData] = useState<User[]>(() => [])
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const fallbackData: User[] = []
+  const columns: ColumnDef<User>[] = useMemo(
 		() => [
 			{
 				header: 'Id do usuário',
@@ -65,8 +48,6 @@ export const UsersPage = () => {
 		],
 		[],
 	)
-	const [data, setData] = useState<User[]>(() => [])
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
 	const table = useReactTable({
 		columns,
@@ -79,8 +60,9 @@ export const UsersPage = () => {
 		},
 	})
 
-	return (
-		<Card className="w-[500px]">
+
+  return (
+    <Card className="w-[500px]">
 			<CardContent>
 				<Input
 					placeholder="Encontrar usuário..."
@@ -112,5 +94,5 @@ export const UsersPage = () => {
 				</Table>
 			</CardContent>
 		</Card>
-	)
+  )
 }
