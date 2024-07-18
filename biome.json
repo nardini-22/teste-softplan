@@ -13,6 +13,15 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
 			"recommended": true,
 			"style": {
 				"noNonNullAssertion": "off"

@@ -56,7 +56,6 @@ export const TableUsers = () => {
 
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 	const fallbackData: User[] = []
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	const columns: ColumnDef<User>[] = useMemo(
 		() => [
 			{
@@ -72,9 +71,15 @@ export const TableUsers = () => {
 				enableHiding: false,
 				cell: ({ row }) => (
 					<div className="flex">
-						<Button variant="ghost" size="icon" tooltip="Editar usuário">
-							<Pencil className="size-4" />
-						</Button>
+						<DialogComponent
+							trigger={
+								<Button variant="ghost" size="icon" tooltip="Editar usuário">
+									<Pencil className="size-4" />
+								</Button>
+							}
+							title="Editar usuário"
+							content={<FormUsers editId={row.getValue('id')} />}
+						/>
 						<DialogComponent
 							trigger={
 								<Button variant="ghost" size="icon" tooltip="Remover usuário">
