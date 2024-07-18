@@ -10,6 +10,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import type { User } from '@/domain/user/user-model'
 import { getUsers } from '@/http/get-users'
 import { useQuery } from '@tanstack/react-query'
@@ -23,6 +24,7 @@ import {
 } from '@tanstack/react-table'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { FormUsers } from './form-users'
 
 export const TableUsers = () => {
 	const { data: tableData } = useQuery({
@@ -71,37 +73,50 @@ export const TableUsers = () => {
 	})
 
 	return (
-		<Card className="w-[500px]">
-			<CardContent>
-				<Input
-					placeholder="Encontrar usuário..."
-					value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-					onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
-					className="max-w-sm"
-				/>
-				<Table>
-					<TableHeader>
-						{table.getHeaderGroups().map((headerGroup) => (
-							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-									<TableHead key={header.id} className="w-[100px]">
-										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-									</TableHead>
-								))}
-							</TableRow>
-						))}
-					</TableHeader>
-					<TableBody>
-						{table.getRowModel().rows.map((row) => (
-							<TableRow key={row.id}>
-								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-								))}
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</CardContent>
-		</Card>
+		<>
+			<Dialog>
+				<DialogTrigger asChild>
+					<Button>Criar usuário</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Criar usuário</DialogTitle>
+					</DialogHeader>
+					<FormUsers />
+				</DialogContent>
+			</Dialog>
+			<Card className="w-[500px]">
+				<CardContent>
+					<Input
+						placeholder="Encontrar usuário..."
+						value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+						onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+						className="max-w-sm"
+					/>
+					<Table>
+						<TableHeader>
+							{table.getHeaderGroups().map((headerGroup) => (
+								<TableRow key={headerGroup.id}>
+									{headerGroup.headers.map((header) => (
+										<TableHead key={header.id} className="w-[100px]">
+											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+										</TableHead>
+									))}
+								</TableRow>
+							))}
+						</TableHeader>
+						<TableBody>
+							{table.getRowModel().rows.map((row) => (
+								<TableRow key={row.id}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+									))}
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</CardContent>
+			</Card>
+		</>
 	)
 }
