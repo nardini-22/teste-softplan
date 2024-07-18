@@ -1,15 +1,15 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
+import { userSchema, type userSchemaType } from '@/domain/user/user-model'
+import { signIn } from '@/http/signin'
+import EditToken from '@/lib/edit-token'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Cookies from 'js-cookie'
 import { HTTPError } from 'ky'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
-import { userSchema, type userSchemaType } from './domain/user/user-model'
-import { signIn } from './http/signin'
-import EditToken from './lib/edit-token'
 
-function App() {
+export function LoginPage() {
 	const {
 		register,
 		handleSubmit,
@@ -63,5 +63,3 @@ function App() {
 		</>
 	)
 }
-
-export default App
