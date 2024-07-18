@@ -1,6 +1,8 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Cookies from 'js-cookie'
+import { HTTPError } from 'ky'
 import { RouterProvider } from 'react-router-dom'
-import { Toaster } from 'sonner'
+import { Toaster, toast } from 'sonner'
 import { TooltipProvider } from './components/ui'
 import { router } from './router'
 
@@ -15,6 +17,19 @@ export const App = () => {
 				gcTime: 10 * (60 * 1000),
 			},
 		},
+		queryCache: new QueryCache({
+			onError: async (error) => {
+				if (error instanceof HTTPError) {
+					const message = await error.response.json()
+					if (message === 'jwt expired') {
+						Cookies.remove('token')
+						window.location.reload()
+					} else {
+						toast.error('Não foi possível carregar as informações. Tente novamente mais tarde')
+					}
+				}
+			},
+		}),
 	})
 	return (
 		<QueryClientProvider client={queryClient}>
