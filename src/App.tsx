@@ -1,11 +1,13 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Cookies from 'js-cookie'
 import { HTTPError } from 'ky'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
 import { userSchema, type userSchemaType } from './domain/user/user-model'
 import { signIn } from './http/signin'
+import EditToken from './lib/edit-token'
 
 function App() {
 	const {
@@ -19,7 +21,9 @@ function App() {
 
 	const onSubmit = async (data: userSchemaType) => {
 		try {
-			const { accessToken } = await signIn(data.email, data.password)
+			const { accessToken, user } = await signIn(data.email, data.password)
+			const editedToken = EditToken(accessToken, user.role)
+			Cookies.set('token', editedToken, { expires: 1 })
 			toast.success('Login efetuado com sucesso. Redirecionando...', {
 				onAutoClose: () => {
 					navigate('/users')

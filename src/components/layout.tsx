@@ -1,5 +1,12 @@
-import { Outlet } from 'react-router-dom'
+import Cookies from 'js-cookie'
+import { Navigate, Outlet } from 'react-router-dom'
 
 export default function Layout() {
-	return <Outlet />
+	const token = Cookies.get('token')
+	return (
+		<>
+			{!token && <Navigate to="/" />}
+			<Outlet />
+		</>
+	)
 }
