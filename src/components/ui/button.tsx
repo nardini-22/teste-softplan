@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { TooltipTrigger } from '@radix-ui/react-tooltip'
+import { Loader2 } from 'lucide-react'
 import { Tooltip, TooltipContent } from './tooltip'
 
 const buttonVariants = cva(
@@ -34,18 +35,23 @@ const buttonVariants = cva(
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof buttonVariants> {
+		VariantProps<typeof buttonVariants>,
+		React.PropsWithChildren {
 	asChild?: boolean
 	tooltip?: string
+	loading?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ className, variant, size, tooltip, asChild = false, ...props }, ref) => {
+	({ className, variant, size, tooltip, loading, asChild = false, children, ...props }, ref) => {
 		const Comp = asChild ? Slot : 'button'
 		return (
 			<Tooltip>
 				<TooltipTrigger asChild>
-					<Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+					<Comp disabled={loading} className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+						{loading && <Loader2 className="mr-2 size-3 animate-spin" />}
+						{children}
+					</Comp>
 				</TooltipTrigger>
 				{tooltip && (
 					<TooltipContent>

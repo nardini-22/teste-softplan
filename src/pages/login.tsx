@@ -2,6 +2,7 @@ import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/compo
 import { userSchema, type userSchemaType } from '@/domain/user/user-model'
 import { signIn } from '@/http/signin'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { HTTPError } from 'ky'
 import { useForm } from 'react-hook-form'
@@ -18,21 +19,26 @@ export function LoginPage() {
 	})
 	const navigate = useNavigate()
 
-	const onSubmit = async (data: userSchemaType) => {
-		try {
-			const { accessToken } = await signIn(data.email, data.password)
+	const { mutate: handleSignIn, isPending } = useMutation({
+		mutationFn: (data: { email: string; password: string }) => signIn(data.email, data.password),
+		onSuccess: ({ accessToken }) => {
 			Cookies.set('token', accessToken, { expires: 1 })
 			toast.success('Login efetuado com sucesso. Redirecionando...', {
 				onAutoClose: () => {
 					navigate('/users')
 				},
 			})
-		} catch (error) {
+		},
+		onError: async (error) => {
 			if (error instanceof HTTPError) {
 				const message = await error.response.json()
 				toast.error(message)
 			}
-		}
+		},
+	})
+
+	const onSubmit = async (data: userSchemaType) => {
+		handleSignIn({ email: data.email, password: data.password })
 	}
 
 	return (
@@ -46,14 +52,23 @@ export function LoginPage() {
 					</CardHeader>
 					<CardContent>
 						<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-							<Input type="text" placeholder="Email" {...register('email')} errorMessage={errors.email?.message} />
+							<Input
+								type="text"
+								placeholder="Email"
+								{...register('email')}
+								errorMessage={errors.email?.message}
+								disabled={isPending}
+							/>
 							<Input
 								type="password"
 								placeholder="Senha"
 								{...register('password')}
 								errorMessage={errors.password?.message}
+								disabled={isPending}
 							/>
-							<Button type="submit">Entrar</Button>
+							<Button type="submit" loading={isPending}>
+								Entrar
+							</Button>
 						</form>
 					</CardContent>
 				</Card>

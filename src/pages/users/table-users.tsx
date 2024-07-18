@@ -1,27 +1,37 @@
-import { Button, Card, CardContent, Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui"
-import { User } from "@/domain/user/user-model"
-import { getUsers } from "@/http/get-users"
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from "@tanstack/react-table"
-import { HTTPError } from "ky"
-import { Pencil, Trash2 } from "lucide-react"
-import { useMemo, useState } from "react"
+import {
+	Button,
+	Card,
+	CardContent,
+	Input,
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from '@/components/ui'
+import type { User } from '@/domain/user/user-model'
+import { getUsers } from '@/http/get-users'
+import { useQuery } from '@tanstack/react-query'
+import {
+	type ColumnDef,
+	type ColumnFiltersState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	useReactTable,
+} from '@tanstack/react-table'
+import { Pencil, Trash2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
 
 export const TableUsers = () => {
-	const teste = async () => {
-		try {
-			const res = await getUsers()
-			setData(res)
-		} catch (error) {
-			if (error instanceof HTTPError) {
-				const message = await error.response.json()
-			}
-		}
-	}
-
-  const [data, setData] = useState<User[]>(() => [])
+	const { data: tableData } = useQuery({
+		queryKey: ['table-users'],
+		queryFn: () => getUsers(),
+	})
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const fallbackData: User[] = []
-  const columns: ColumnDef<User>[] = useMemo(
+	const fallbackData: User[] = []
+	const columns: ColumnDef<User>[] = useMemo(
 		() => [
 			{
 				header: 'Id do usuário',
@@ -51,7 +61,7 @@ export const TableUsers = () => {
 
 	const table = useReactTable({
 		columns,
-		data: data ?? fallbackData,
+		data: tableData ?? fallbackData,
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -60,9 +70,8 @@ export const TableUsers = () => {
 		},
 	})
 
-
-  return (
-    <Card className="w-[500px]">
+	return (
+		<Card className="w-[500px]">
 			<CardContent>
 				<Input
 					placeholder="Encontrar usuário..."
@@ -94,5 +103,5 @@ export const TableUsers = () => {
 				</Table>
 			</CardContent>
 		</Card>
-  )
+	)
 }
