@@ -7,8 +7,7 @@ export default function EditToken(token: string, role: string) {
 		...jwtDecoded,
 		role: role,
 	}
-	const secret = 'json-server-auth-123456'
-	const newToken = sign(newPayload, secret)
+	const newToken = sign(newPayload, import.meta.env.VITE_JWT_SECRET)
 
 	return newToken
 }

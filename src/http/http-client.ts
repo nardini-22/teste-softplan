@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import ky from 'ky'
 
 export const ClientHttp = ky.create({
-	prefixUrl: 'https://teste-softplan-api.vercel.app/',
+	prefixUrl: import.meta.env.VITE_PUBLIC_API_URL,
 	hooks: {
 		beforeRequest: [
 			async (req) => {

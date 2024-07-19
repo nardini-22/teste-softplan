@@ -3,6 +3,9 @@ import {
 	Button,
 	Card,
 	CardContent,
+	DialogClose,
+	DialogComponent,
+	DialogFooter,
 	Input,
 	Table,
 	TableBody,
@@ -11,11 +14,9 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui'
-import { DialogComponent, DialogFooter } from '@/components/ui/dialog'
 import type { User } from '@/domain/user/user-model'
 import { deleteUser } from '@/http/delete-user'
 import { getUsers } from '@/http/get-users'
-import { DialogClose } from '@radix-ui/react-dialog'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
 	type ColumnDef,
@@ -26,16 +27,18 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 import Cookies from 'js-cookie'
-import { jwtDecode } from 'jwt-decode'
+import { type JwtPayload, jwtDecode } from 'jwt-decode'
 import { HTTPError } from 'ky'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { FormUsers } from './form-users'
 
+interface TokenProps extends JwtPayload, User {}
+
 export const TableUsers = () => {
-	const { role, sub } = jwtDecode(Cookies.get('token')!) // @todo arrumar a tipagem
-	const roleValidation = role === 'admin'
+	const token: TokenProps = jwtDecode(Cookies.get('token')!)
+	const roleValidation = token.role === 'admin'
 
 	const queryClient = useQueryClient()
 
@@ -76,7 +79,7 @@ export const TableUsers = () => {
 				id: 'actions',
 				enableHiding: false,
 				cell: ({ row }) => {
-					const userValidation = row.getValue('id') !== Number(sub)
+					const userValidation = row.getValue('id') !== Number(token.sub)
 					return (
 						roleValidation &&
 						userValidation && (
