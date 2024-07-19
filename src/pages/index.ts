@@ -1,4 +1,5 @@
 export * from './login/layout'
 export * from './login/login'
+export * from './my-account'
 export * from './users/layout'
 export * from './users/users'

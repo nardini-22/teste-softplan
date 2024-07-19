@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-export function UsersLayout() {
+export function PrivateLayout() {
 	const user = Cookies.get('token')
 	const navigate = useNavigate()
 
@@ -14,7 +14,9 @@ export function UsersLayout() {
 	return (
 		<>
 			<Header />
-			<Outlet />
+			<div className="flex justify-center py-10">
+				<Outlet />
+			</div>
 		</>
 	)
 }

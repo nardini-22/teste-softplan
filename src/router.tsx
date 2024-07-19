@@ -1,10 +1,10 @@
-import { LoginLayout, LoginPage, UsersLayout, UsersPage } from '@/pages'
+import { LoginPage, MyAccountPage, PrivateLayout, PublicLayout, UsersPage } from '@/pages'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
 	{
-		id: 'login',
-		element: <LoginLayout />,
+		id: 'public',
+		element: <PublicLayout />,
 		children: [
 			{
 				path: '/',
@@ -13,12 +13,16 @@ export const router = createBrowserRouter([
 		],
 	},
 	{
-		id: 'users',
-		element: <UsersLayout />,
+		id: 'private',
+		element: <PrivateLayout />,
 		children: [
 			{
 				path: '/users',
 				element: <UsersPage />,
+			},
+			{
+				path: '/my-account',
+				element: <MyAccountPage />,
 			},
 		],
 	},

@@ -11,11 +11,14 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui'
 import { useCookies } from '@/hooks/useCookies'
+import getUserAvatar from '@/lib/get-user-avatar'
 import { logout } from '@/lib/logout'
 import { ChevronDown, LogOut, User } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Header() {
 	const cookies = useCookies()
+	const navigate = useNavigate()
 	return (
 		<div className="px-6 md:px-0">
 			<header className="w-full lg:w-2/3 flex h-24 items-center justify-between mx-auto z-10">
@@ -27,7 +30,7 @@ export default function Header() {
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" className="flex items-center gap-2 cursor-pointer">
 								<Avatar>
-									<AvatarFallback>{cookies?.email.substring(0, 2).toUpperCase()}</AvatarFallback>
+									<AvatarFallback>{getUserAvatar(cookies?.email)}</AvatarFallback>
 								</Avatar>
 								{cookies?.email}
 								<ChevronDown size={16} />
@@ -37,7 +40,7 @@ export default function Header() {
 							<DropdownMenuLabel>Minha conta</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
-								<DropdownMenuItem className="cursor-pointer">
+								<DropdownMenuItem className="cursor-pointer" onClick={() => navigate('/my-account')}>
 									<User className="mr-2 h-4 w-4" />
 									<span>Perfil</span>
 								</DropdownMenuItem>

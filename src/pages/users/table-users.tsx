@@ -84,45 +84,43 @@ export const TableUsers = () => {
 	})
 
 	return (
-		<div className="flex justify-center py-10">
-			<Card className="w-1/2">
-				<CardContent>
-					<div className={cn(roleValidation && 'flex justify-between')}>
-						<Input
-							placeholder="Encontrar usuário..."
-							value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-							onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
-						/>
-						{roleValidation && <AddUser />}
-					</div>
-					<Table>
-						<TableHeader>
-							{table.getHeaderGroups().map((headerGroup) => (
-								<TableRow key={headerGroup.id}>
-									{headerGroup.headers.map((header) => (
-										<TableHead key={header.id} className="w-[100px]">
-											{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-										</TableHead>
+		<Card className="w-1/2">
+			<CardContent>
+				<div className={cn(roleValidation && 'flex justify-between')}>
+					<Input
+						placeholder="Encontrar usuário..."
+						value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+						onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+					/>
+					{roleValidation && <AddUser />}
+				</div>
+				<Table>
+					<TableHeader>
+						{table.getHeaderGroups().map((headerGroup) => (
+							<TableRow key={headerGroup.id}>
+								{headerGroup.headers.map((header) => (
+									<TableHead key={header.id} className="w-[100px]">
+										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+									</TableHead>
+								))}
+							</TableRow>
+						))}
+					</TableHeader>
+					<TableBody>
+						{isFetching ? (
+							<SkeletonTableRow numberOfCol={3} />
+						) : (
+							table.getRowModel().rows.map((row) => (
+								<TableRow key={row.id}>
+									{row.getVisibleCells().map((cell) => (
+										<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
 									))}
 								</TableRow>
-							))}
-						</TableHeader>
-						<TableBody>
-							{isFetching ? (
-								<SkeletonTableRow numberOfCol={3} />
-							) : (
-								table.getRowModel().rows.map((row) => (
-									<TableRow key={row.id}>
-										{row.getVisibleCells().map((cell) => (
-											<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-										))}
-									</TableRow>
-								))
-							)}
-						</TableBody>
-					</Table>
-				</CardContent>
-			</Card>
-		</div>
+							))
+						)}
+					</TableBody>
+				</Table>
+			</CardContent>
+		</Card>
 	)
 }
