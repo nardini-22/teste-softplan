@@ -25,11 +25,7 @@ export function LoginPage() {
 		onSuccess: ({ accessToken, user }) => {
 			const newToken = EditToken(accessToken, user.role)
 			Cookies.set('token', newToken, { expires: 1 })
-			toast.success('Login efetuado com sucesso. Redirecionando...', {
-				onAutoClose: () => {
-					navigate('/users') // @todo investigar sobre isso
-				},
-			})
+			navigate('/users')
 		},
 		onError: async (error) => {
 			if (error instanceof HTTPError) {
