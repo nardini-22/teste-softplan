@@ -24,6 +24,8 @@ import {
 	getFilteredRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
 import { HTTPError } from 'ky'
 import { Pencil, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
@@ -31,6 +33,9 @@ import { toast } from 'sonner'
 import { FormUsers } from './form-users'
 
 export const TableUsers = () => {
+	const { role } = jwtDecode(Cookies.get('token')!) // @todo arrumar a tipagem
+	const roleValidation = role === 'admin'
+
 	const queryClient = useQueryClient()
 
 	const { data: tableData } = useQuery({
@@ -69,49 +74,53 @@ export const TableUsers = () => {
 			{
 				id: 'actions',
 				enableHiding: false,
-				cell: ({ row }) => (
-					<div className="flex">
-						<DialogComponent
-							trigger={
-								<Button variant="ghost" size="icon" tooltip="Editar usuário">
-									<Pencil className="size-4" />
-								</Button>
-							}
-							title="Editar usuário"
-							content={<FormUsers editId={row.getValue('id')} />}
-						/>
-						<DialogComponent
-							trigger={
-								<Button variant="ghost" size="icon" tooltip="Remover usuário">
-									<Trash2 className="size-4 text-red-500" />
-								</Button>
-							}
-							title="Deletar usuário"
-							content={
-								<div>
-									<p className="py-5">
-										Deseja realmente deletar o usuário
-										<span className="font-bold"> {row.getValue('email')}</span>? Essa ação não pode ser desfeita.
-									</p>
-									<DialogFooter>
-										<DialogClose asChild>
-											<Button disabled={isPending} variant="ghost">
-												Cancelar
-											</Button>
-										</DialogClose>
-										<Button
-											loading={isPending}
-											variant="destructive"
-											onClick={() => handleDeleteUser(row.getValue('id'))}
-										>
-											Confirmar
+				cell: ({ row }) => {
+					return (
+						roleValidation && (
+							<div className="flex">
+								<DialogComponent
+									trigger={
+										<Button variant="ghost" size="icon" tooltip="Editar usuário">
+											<Pencil className="size-4" />
 										</Button>
-									</DialogFooter>
-								</div>
-							}
-						/>
-					</div>
-				),
+									}
+									title="Editar usuário"
+									content={<FormUsers editId={row.getValue('id')} />}
+								/>
+								<DialogComponent
+									trigger={
+										<Button variant="ghost" size="icon" tooltip="Remover usuário">
+											<Trash2 className="size-4 text-red-500" />
+										</Button>
+									}
+									title="Deletar usuário"
+									content={
+										<div>
+											<p className="py-5">
+												Deseja realmente deletar o usuário
+												<span className="font-bold"> {row.getValue('email')}</span>? Essa ação não pode ser desfeita.
+											</p>
+											<DialogFooter>
+												<DialogClose asChild>
+													<Button disabled={isPending} variant="ghost">
+														Cancelar
+													</Button>
+												</DialogClose>
+												<Button
+													loading={isPending}
+													variant="destructive"
+													onClick={() => handleDeleteUser(row.getValue('id'))}
+												>
+													Confirmar
+												</Button>
+											</DialogFooter>
+										</div>
+									}
+								/>
+							</div>
+						)
+					)
+				},
 			},
 		],
 		[],
@@ -130,7 +139,9 @@ export const TableUsers = () => {
 
 	return (
 		<>
-			<DialogComponent trigger={<Button>Criar usuário</Button>} title="Criar usuário" content={<FormUsers />} />
+			{roleValidation && (
+				<DialogComponent trigger={<Button>Criar usuário</Button>} title="Criar usuário" content={<FormUsers />} />
+			)}
 			<Card className="w-[500px]">
 				<CardContent>
 					<Input
