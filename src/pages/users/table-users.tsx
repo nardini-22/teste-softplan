@@ -1,3 +1,4 @@
+import SkeletonTableRow from '@/components/skeleton-table-row'
 import {
 	Button,
 	Card,
@@ -38,7 +39,7 @@ export const TableUsers = () => {
 
 	const queryClient = useQueryClient()
 
-	const { data: tableData } = useQuery({
+	const { data: tableData, isFetching } = useQuery({
 		queryKey: ['table-users'],
 		queryFn: () => getUsers(),
 	})
@@ -170,6 +171,7 @@ export const TableUsers = () => {
 									))}
 								</TableRow>
 							))}
+							{isFetching && <SkeletonTableRow numberOfCol={3} />}
 						</TableBody>
 					</Table>
 				</CardContent>
