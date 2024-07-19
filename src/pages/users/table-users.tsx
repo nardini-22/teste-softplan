@@ -32,8 +32,9 @@ import EditUser from './edit-user'
 interface TokenProps extends JwtPayload, User {}
 
 export const TableUsers = () => {
-	const token: TokenProps = jwtDecode(Cookies.get('token')!)
-	const roleValidation = token.role === 'admin'
+	const cookies = Cookies.get('token')
+	const token: TokenProps | undefined = cookies ? jwtDecode(cookies) : undefined
+	const roleValidation = token?.role === 'admin'
 
 	const { data: tableData, isFetching } = useQuery({
 		queryKey: ['table-users'],
@@ -55,7 +56,7 @@ export const TableUsers = () => {
 			{
 				id: 'actions',
 				cell: ({ row }) => {
-					const userValidation = row.getValue('id') !== Number(token.sub)
+					const userValidation = row.getValue('id') !== Number(token?.sub)
 					return (
 						userValidation && (
 							<div className="flex gap-2">
