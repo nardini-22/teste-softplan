@@ -12,6 +12,7 @@ import {
 } from '@/components/ui'
 import type { User } from '@/domain/user/user-model'
 import { getUsers } from '@/http/get-users'
+import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import {
 	type ColumnDef,
@@ -53,11 +54,9 @@ export const TableUsers = () => {
 			},
 			{
 				id: 'actions',
-				enableHiding: false,
 				cell: ({ row }) => {
 					const userValidation = row.getValue('id') !== Number(token.sub)
 					return (
-						roleValidation &&
 						userValidation && (
 							<div className="flex gap-2">
 								<EditUser editId={row.getValue('id')} />
@@ -77,6 +76,11 @@ export const TableUsers = () => {
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		initialState: {
+			columnVisibility: {
+				actions: roleValidation,
+			},
+		},
 		state: {
 			columnFilters,
 		},
@@ -86,7 +90,7 @@ export const TableUsers = () => {
 		<div className="flex justify-center py-10">
 			<Card className="w-1/2">
 				<CardContent>
-					<div className="flex justify-between">
+					<div className={cn(roleValidation && 'flex justify-between')}>
 						<Input
 							placeholder="Encontrar usuário..."
 							value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
