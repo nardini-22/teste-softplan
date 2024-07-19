@@ -29,7 +29,7 @@ import {
 import Cookies from 'js-cookie'
 import { type JwtPayload, jwtDecode } from 'jwt-decode'
 import { HTTPError } from 'ky'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, PlusCircle, Trash2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { FormUsers } from './form-users'
@@ -83,7 +83,7 @@ export const TableUsers = () => {
 					return (
 						roleValidation &&
 						userValidation && (
-							<div className="flex">
+							<div className="flex gap-2">
 								<DialogComponent
 									trigger={
 										<Button variant="ghost" size="icon" tooltip="Editar usuário">
@@ -144,18 +144,28 @@ export const TableUsers = () => {
 	})
 
 	return (
-		<>
-			{roleValidation && (
-				<DialogComponent trigger={<Button>Criar usuário</Button>} title="Criar usuário" content={<FormUsers />} />
-			)}
-			<Card className="w-[500px]">
+		<div className="flex justify-center py-10">
+			<Card className="w-1/2">
 				<CardContent>
-					<Input
-						placeholder="Encontrar usuário..."
-						value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
-						onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
-						className="max-w-sm"
-					/>
+					<div className="flex justify-between">
+						<Input
+							placeholder="Encontrar usuário..."
+							value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+							onChange={(event) => table.getColumn('email')?.setFilterValue(event.target.value)}
+						/>
+						{roleValidation && (
+							<DialogComponent
+								trigger={
+									<Button className="gap-2" variant="outline">
+										<PlusCircle />
+										Criar usuário
+									</Button>
+								}
+								title="Criar usuário"
+								content={<FormUsers />}
+							/>
+						)}
+					</div>
 					<Table>
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
@@ -181,6 +191,6 @@ export const TableUsers = () => {
 					</Table>
 				</CardContent>
 			</Card>
-		</>
+		</div>
 	)
 }

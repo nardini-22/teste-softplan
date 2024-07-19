@@ -14,7 +14,7 @@ interface ControlledInputProps extends InputProps {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, errorMessage, ...props }, ref) => {
 	return (
-		<div className="py-1">
+		<div className="pb-1">
 			<input
 				type={type}
 				className={cn(
