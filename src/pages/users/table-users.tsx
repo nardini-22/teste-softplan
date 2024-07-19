@@ -34,7 +34,7 @@ import { toast } from 'sonner'
 import { FormUsers } from './form-users'
 
 export const TableUsers = () => {
-	const { role } = jwtDecode(Cookies.get('token')!) // @todo arrumar a tipagem
+	const { role, sub } = jwtDecode(Cookies.get('token')!) // @todo arrumar a tipagem
 	const roleValidation = role === 'admin'
 
 	const queryClient = useQueryClient()
@@ -76,8 +76,10 @@ export const TableUsers = () => {
 				id: 'actions',
 				enableHiding: false,
 				cell: ({ row }) => {
+					const userValidation = row.getValue('id') !== Number(sub)
 					return (
-						roleValidation && (
+						roleValidation &&
+						userValidation && (
 							<div className="flex">
 								<DialogComponent
 									trigger={

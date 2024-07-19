@@ -54,6 +54,9 @@ export const FormUsers = ({ editId }: FormUsersProps) => {
 			queryClient.invalidateQueries({
 				queryKey: ['table-users'],
 			})
+			queryClient.invalidateQueries({
+				queryKey: ['form-users'],
+			})
 			toast.success('Usuário editado com sucesso')
 		},
 		onError: async (error) => {
@@ -87,9 +90,16 @@ export const FormUsers = ({ editId }: FormUsersProps) => {
 				placeholder="Email"
 				{...register('email')}
 				errorMessage={errors.email?.message}
-				disabled={loading}
+				disabled={loading || !!editId}
 			/>
-			<Input placeholder="Senha" {...register('password')} errorMessage={errors.password?.message} disabled={loading} />
+			{!editId && (
+				<Input
+					placeholder="Senha"
+					{...register('password')}
+					errorMessage={errors.password?.message}
+					disabled={loading}
+				/>
+			)}
 			<Input placeholder="Cargo" {...register('role')} errorMessage={errors.role?.message} disabled={loading} />
 			<DialogFooter>
 				<DialogClose asChild>

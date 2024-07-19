@@ -6,6 +6,8 @@ export interface User {
 	role: string
 }
 
+export type EditUser = Partial<User>
+
 export type Login = Omit<User, 'role'>
 
 export const loginSchema = z.object({
