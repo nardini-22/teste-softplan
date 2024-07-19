@@ -10,6 +10,8 @@ interface DialogProps {
 	trigger: JSX.Element
 	title: string
 	content: JSX.Element
+	open?: boolean
+	onOpenChange?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Dialog = DialogPrimitive.Root
@@ -89,9 +91,9 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
-const DialogComponent = ({ trigger, title, content }: DialogProps) => {
+const DialogComponent = ({ trigger, title, content, open, onOpenChange }: DialogProps) => {
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogTrigger asChild>{trigger}</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
