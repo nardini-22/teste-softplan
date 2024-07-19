@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 
-export function Logout() {
+export function logout() {
 	Cookies.remove('token')
 	window.location.reload()
 }

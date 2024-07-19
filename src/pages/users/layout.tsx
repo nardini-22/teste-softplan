@@ -1,3 +1,4 @@
+import Header from '@/components/header'
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -10,5 +11,10 @@ export function UsersLayout() {
 		!user && navigate('/')
 	}, [user])
 
-	return <Outlet />
+	return (
+		<>
+			<Header />
+			<Outlet />
+		</>
+	)
 }

@@ -11,6 +11,7 @@ import {
 	TableRow,
 } from '@/components/ui'
 import type { User } from '@/domain/user/user-model'
+import { useCookies } from '@/hooks/useCookies'
 import { getUsers } from '@/http/get-users'
 import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
@@ -22,19 +23,14 @@ import {
 	getFilteredRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
-import Cookies from 'js-cookie'
-import { type JwtPayload, jwtDecode } from 'jwt-decode'
 import { useMemo, useState } from 'react'
 import AddUser from './add-user'
 import DeleteUser from './delete-user'
 import EditUser from './edit-user'
 
-interface TokenProps extends JwtPayload, User {}
-
 export const TableUsers = () => {
-	const cookies = Cookies.get('token')
-	const token: TokenProps | undefined = cookies ? jwtDecode(cookies) : undefined
-	const roleValidation = token?.role === 'admin'
+	const cookies = useCookies()
+	const roleValidation = cookies?.role === 'admin'
 
 	const { data: tableData, isFetching } = useQuery({
 		queryKey: ['table-users'],
@@ -56,7 +52,7 @@ export const TableUsers = () => {
 			{
 				id: 'actions',
 				cell: ({ row }) => {
-					const userValidation = row.getValue('id') !== Number(token?.sub)
+					const userValidation = row.getValue('id') !== Number(cookies?.sub)
 					return (
 						userValidation && (
 							<div className="flex gap-2">
