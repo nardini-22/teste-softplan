@@ -1,6 +1,7 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
 import { type Login, loginSchema, type loginSchemaType } from '@/domain/user/user-model'
 import { signIn } from '@/http/signin'
+import EditToken from '@/lib/edit-token'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
@@ -21,8 +22,9 @@ export function LoginPage() {
 
 	const { mutate: handleSignIn, isPending } = useMutation({
 		mutationFn: (data: Login) => signIn(data),
-		onSuccess: ({ accessToken }) => {
-			Cookies.set('token', accessToken, { expires: 1 })
+		onSuccess: ({ accessToken, user }) => {
+			const newToken = EditToken(accessToken, user.role)
+			Cookies.set('token', newToken, { expires: 1 })
 			toast.success('Login efetuado com sucesso. Redirecionando...', {
 				onAutoClose: () => {
 					navigate('/users')

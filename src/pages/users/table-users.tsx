@@ -101,7 +101,7 @@ export const TableUsers = () => {
 										</DialogClose>
 										<Button
 											loading={isPending}
-											className="bg-red-500"
+											variant="destructive"
 											onClick={() => handleDeleteUser(row.getValue('id'))}
 										>
 											Confirmar

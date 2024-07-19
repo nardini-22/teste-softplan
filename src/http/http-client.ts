@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import ky from 'ky'
 
 export const ClientHttp = ky.create({
-	prefixUrl: 'http://localhost:3000',
+	prefixUrl: 'https://teste-softplan-api.vercel.app/',
 	hooks: {
 		beforeRequest: [
 			async (req) => {
