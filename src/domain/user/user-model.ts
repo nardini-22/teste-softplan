@@ -24,11 +24,7 @@ export const loginSchema = z.object({
 })
 
 export const userSchema = loginSchema.extend({
-	role: z.coerce
-		.string({
-			required_error: 'Esse campo não pode ficar vazio',
-		})
-		.min(4, 'Esse campo não pode ter menos que 4 caracteres'),
+	role: z.coerce.string().min(4, 'Esse não pode ficar vazio'),
 })
 
 export type loginSchemaType = z.infer<typeof loginSchema>

@@ -27,7 +27,7 @@ export function LoginPage() {
 			Cookies.set('token', newToken, { expires: 1 })
 			toast.success('Login efetuado com sucesso. Redirecionando...', {
 				onAutoClose: () => {
-					navigate('/users')
+					navigate('/users') // @todo investigar sobre isso
 				},
 			})
 		},

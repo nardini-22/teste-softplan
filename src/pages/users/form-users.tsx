@@ -1,4 +1,4 @@
-import { Button, Input } from '@/components/ui'
+import { Button, ControlledInput, ControlledSelect } from '@/components/ui'
 import { DialogClose, DialogFooter } from '@/components/ui/dialog'
 import { type User, userSchema, type userSchemaType } from '@/domain/user/user-model'
 import { addUser } from '@/http/add-user'
@@ -17,12 +17,17 @@ interface FormUsersProps {
 
 export const FormUsers = ({ editId }: FormUsersProps) => {
 	const {
-		register,
 		handleSubmit,
 		formState: { errors },
 		setValue,
+		control,
 	} = useForm<userSchemaType>({
 		resolver: zodResolver(userSchema),
+		defaultValues: {
+			email: '',
+			password: '',
+			role: '',
+		},
 	})
 	const queryClient = useQueryClient()
 
@@ -85,22 +90,40 @@ export const FormUsers = ({ editId }: FormUsersProps) => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<Input
+			<ControlledInput
+				control={control}
+				name="email"
 				type="email"
 				placeholder="Email"
-				{...register('email')}
 				errorMessage={errors.email?.message}
 				disabled={loading || !!editId}
 			/>
 			{!editId && (
-				<Input
+				<ControlledInput
+					control={control}
+					name="password"
 					placeholder="Senha"
-					{...register('password')}
 					errorMessage={errors.password?.message}
 					disabled={loading}
 				/>
 			)}
-			<Input placeholder="Cargo" {...register('role')} errorMessage={errors.role?.message} disabled={loading} />
+			<ControlledSelect
+				control={control}
+				name="role"
+				placeholder="Cargo"
+				options={[
+					{
+						text: 'Admin',
+						value: 'admin',
+					},
+					{
+						text: 'User',
+						value: 'user',
+					},
+				]}
+				errorMessage={errors.role?.message}
+				disabled={loading}
+			/>
 			<DialogFooter>
 				<DialogClose asChild>
 					<Button variant="ghost">Cancelar</Button>

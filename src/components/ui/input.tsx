@@ -1,14 +1,20 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { type Control, Controller } from 'react-hook-form'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	errorMessage?: string
 }
 
+interface ControlledInputProps extends InputProps {
+	control: Control<any>
+	name: string
+}
+
 const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, errorMessage, ...props }, ref) => {
 	return (
-		<div>
+		<div className="py-1">
 			<input
 				type={type}
 				className={cn(
@@ -25,4 +31,17 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
 })
 Input.displayName = 'Input'
 
-export { Input }
+const ControlledInput = ({ control, name, ...props }: ControlledInputProps) => {
+	return (
+		<Controller
+			control={control}
+			name={name}
+			render={({ field: { onChange, onBlur, value, ref } }) => (
+				<Input {...props} onChange={onChange} onBlur={onBlur} value={value} ref={ref} />
+			)}
+		/>
+	)
+}
+ControlledInput.displayName = 'ControlledInput'
+
+export { ControlledInput, Input }
