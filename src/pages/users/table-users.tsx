@@ -3,6 +3,13 @@ import {
 	Card,
 	CardContent,
 	Input,
+	Pagination,
+	PaginationContent,
+	PaginationFirstPage,
+	PaginationItem,
+	PaginationLastPage,
+	PaginationNext,
+	PaginationPrevious,
 	Table,
 	TableBody,
 	TableCell,
@@ -21,6 +28,7 @@ import {
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
+	getPaginationRowModel,
 	useReactTable,
 } from '@tanstack/react-table'
 import { useMemo, useState } from 'react'
@@ -38,6 +46,10 @@ export const TableUsers = () => {
 	})
 
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+	const [pagination, setPagination] = useState({
+		pageIndex: 0,
+		pageSize: 5,
+	})
 	const fallbackData: UserDTO[] = []
 	const columns: ColumnDef<UserDTO>[] = useMemo(
 		() => [
@@ -73,6 +85,8 @@ export const TableUsers = () => {
 		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		onPaginationChange: setPagination,
 		initialState: {
 			columnVisibility: {
 				actions: roleValidation,
@@ -80,6 +94,7 @@ export const TableUsers = () => {
 		},
 		state: {
 			columnFilters,
+			pagination,
 		},
 	})
 
@@ -120,6 +135,32 @@ export const TableUsers = () => {
 						)}
 					</TableBody>
 				</Table>
+				{table.options.data.length !== 0 && (
+					<div className="pt-2">
+						<Pagination>
+							<PaginationContent>
+								<small>
+									Página{' '}
+									<span className="font-bold">
+										{table.getState().pagination.pageIndex + 1} de {table.getPageCount().toLocaleString()}
+									</span>
+								</small>
+								<PaginationItem>
+									<PaginationFirstPage onClick={() => table.firstPage()} disabled={!table.getCanPreviousPage()} />
+								</PaginationItem>
+								<PaginationItem>
+									<PaginationPrevious onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
+								</PaginationItem>
+								<PaginationItem>
+									<PaginationNext onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} />
+								</PaginationItem>
+								<PaginationItem>
+									<PaginationLastPage onClick={() => table.lastPage()} disabled={!table.getCanNextPage()} />
+								</PaginationItem>
+							</PaginationContent>
+						</Pagination>
+					</div>
+				)}
 			</CardContent>
 		</Card>
 	)
