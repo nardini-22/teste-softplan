@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, Button, Card, CardContent, ControlledInput } from '@/components/ui'
-import { type EditUserType, changePasswordSchema, type changePasswordSchemaType } from '@/domain/user/user-model'
+import { Avatar, AvatarFallback, Button, Card, CardContent, ControlledInputPassword } from '@/components/ui'
+import { type EditUserDTO, changePasswordSchema, type changePasswordSchemaType } from '@/domain/user/user-model'
 import { useCookies } from '@/hooks/useCookies'
 import { editUser } from '@/http/edit-user'
 import getUserAvatar from '@/lib/get-user-avatar'
@@ -22,11 +22,12 @@ export const MyAccountPage = () => {
 		resolver: zodResolver(changePasswordSchema),
 		defaultValues: {
 			password: '',
+			confirm_password: '',
 		},
 	})
 
 	const { mutate: handleChangePassword, isPending } = useMutation({
-		mutationFn: (data: EditUserType) => editUser(data, Number(cookies?.sub)),
+		mutationFn: (data: EditUserDTO) => editUser(data, Number(cookies?.sub)),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['table-users'],
@@ -62,14 +63,14 @@ export const MyAccountPage = () => {
 						<p className="font-bold">{cookies?.email}</p>
 					</div>
 					<form className="py-5" onSubmit={handleSubmit(onSubmit)}>
-						<ControlledInput
+						<ControlledInputPassword
 							control={control}
 							name="password"
 							placeholder="Nova senha"
 							errorMessage={errors.password?.message}
 							disabled={isPending}
 						/>
-						<ControlledInput
+						<ControlledInputPassword
 							control={control}
 							name="confirm_password"
 							placeholder="Confirmar senha"

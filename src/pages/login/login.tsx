@@ -1,7 +1,15 @@
-import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
+import {
+	Button,
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+	ControlledInput,
+	ControlledInputPassword,
+} from '@/components/ui'
 import { type SignInDTO, signInSchema, type signInSchemaType } from '@/domain'
 import { signIn } from '@/http/signin'
-import EditToken from '@/lib/edit-token'
+import editToken from '@/lib/edit-token'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
@@ -12,18 +20,22 @@ import { toast } from 'sonner'
 
 export function LoginPage() {
 	const {
-		register,
 		handleSubmit,
 		formState: { errors },
+		control,
 	} = useForm<signInSchemaType>({
 		resolver: zodResolver(signInSchema),
+		defaultValues: {
+			email: '',
+			password: '',
+		},
 	})
 	const navigate = useNavigate()
 
 	const { mutate: handleSignIn, isPending } = useMutation({
 		mutationFn: (data: SignInDTO) => signIn(data),
 		onSuccess: ({ accessToken, user }) => {
-			const newToken = EditToken(accessToken, user.role)
+			const newToken = editToken(accessToken, user.role)
 			Cookies.set('token', newToken, { expires: 1 })
 			navigate('/users')
 		},
@@ -48,17 +60,18 @@ export function LoginPage() {
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-						<Input
-							type="text"
+						<ControlledInput
+							control={control}
+							name="email"
+							type="email"
 							placeholder="Email"
-							{...register('email')}
 							errorMessage={errors.email?.message}
 							disabled={isPending}
 						/>
-						<Input
-							type="password"
+						<ControlledInputPassword
+							control={control}
+							name="password"
 							placeholder="Senha"
-							{...register('password')}
 							errorMessage={errors.password?.message}
 							disabled={isPending}
 						/>

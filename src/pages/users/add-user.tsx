@@ -1,4 +1,12 @@
-import { Button, ControlledInput, ControlledSelect, DialogClose, DialogComponent, DialogFooter } from '@/components/ui'
+import {
+	Button,
+	ControlledInput,
+	ControlledInputPassword,
+	ControlledSelect,
+	DialogClose,
+	DialogComponent,
+	DialogFooter,
+} from '@/components/ui'
 import { type UserDTO, addUserSchema, type addUserSchemaType } from '@/domain/user/user-model'
 import { addUser } from '@/http/add-user'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -73,7 +81,7 @@ const AddUser = () => {
 						errorMessage={errors.email?.message}
 						disabled={isPending}
 					/>
-					<ControlledInput
+					<ControlledInputPassword
 						control={control}
 						name="password"
 						placeholder="Senha"
