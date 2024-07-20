@@ -1,4 +1,16 @@
-import { Avatar, AvatarFallback, Button, Card, CardContent, ControlledInputPassword } from '@/components/ui'
+import {
+	Avatar,
+	AvatarFallback,
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbSeparator,
+	Button,
+	Card,
+	CardContent,
+	ControlledInputPassword,
+} from '@/components/ui'
 import { type EditUserDTO, changePasswordSchema, type changePasswordSchemaType } from '@/domain/user/user-model'
 import { useCookies } from '@/hooks/useCookies'
 import { editUser } from '@/http/edit-user'
@@ -53,6 +65,17 @@ export const MyAccountPage = () => {
 	return (
 		<Card className="w-1/2">
 			<CardContent className="flex flex-col items-center">
+				<Breadcrumb className="flex flex-start w-full">
+					<BreadcrumbList>
+						<BreadcrumbItem>
+							<BreadcrumbLink href="/users">Usuários</BreadcrumbLink>
+						</BreadcrumbItem>
+						<BreadcrumbSeparator />
+						<BreadcrumbItem>
+							<BreadcrumbLink className="hover:text-current font-bold">Perfil</BreadcrumbLink>
+						</BreadcrumbItem>
+					</BreadcrumbList>
+				</Breadcrumb>
 				<div className="w-1/2">
 					<div className="flex flex-col items-center gap-5">
 						<Avatar className="size-40">
