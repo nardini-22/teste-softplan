@@ -1,8 +1,8 @@
-import type { User } from '@/domain/user/user-model'
+import type { UserDTO } from '@/domain'
 import Cookies from 'js-cookie'
 import { type JwtPayload, jwtDecode } from 'jwt-decode'
 
-interface UseCookiesProps extends JwtPayload, User {}
+interface UseCookiesProps extends JwtPayload, UserDTO {}
 
 export const useCookies = (): UseCookiesProps | undefined => {
 	const cookies = Cookies.get('token')

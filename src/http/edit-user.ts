@@ -1,7 +1,7 @@
-import type { EditUserType } from '@/domain/user/user-model'
+import type { EditUserDTO } from '@/domain'
 import { ClientHttp } from './http-client'
 
-export async function editUser(data: EditUserType, id: number) {
+export async function editUser(data: EditUserDTO, id: number) {
 	const res = await ClientHttp.patch(`users/${id}`, {
 		json: {
 			...data,

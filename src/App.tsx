@@ -1,9 +1,9 @@
+import { TooltipProvider } from '@/components/ui'
 import { QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Cookies from 'js-cookie'
 import { HTTPError } from 'ky'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster, toast } from 'sonner'
-import { TooltipProvider } from './components/ui'
 import { router } from './router'
 
 export const App = () => {

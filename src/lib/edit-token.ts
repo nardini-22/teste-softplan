@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 import sign from 'jwt-encode'
 
-export default function EditToken(token: string, role: string) {
+export default function editToken(token: string, role: string) {
 	const jwtDecoded = jwtDecode(token)
 	const newPayload = {
 		...jwtDecoded,

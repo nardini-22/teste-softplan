@@ -1,5 +1,5 @@
 import { Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/ui'
-import { type Login, loginSchema, type loginSchemaType } from '@/domain/user/user-model'
+import { type SignInDTO, signInSchema, type signInSchemaType } from '@/domain'
 import { signIn } from '@/http/signin'
 import EditToken from '@/lib/edit-token'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,13 +15,13 @@ export function LoginPage() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<loginSchemaType>({
-		resolver: zodResolver(loginSchema),
+	} = useForm<signInSchemaType>({
+		resolver: zodResolver(signInSchema),
 	})
 	const navigate = useNavigate()
 
 	const { mutate: handleSignIn, isPending } = useMutation({
-		mutationFn: (data: Login) => signIn(data),
+		mutationFn: (data: SignInDTO) => signIn(data),
 		onSuccess: ({ accessToken, user }) => {
 			const newToken = EditToken(accessToken, user.role)
 			Cookies.set('token', newToken, { expires: 1 })
@@ -35,7 +35,7 @@ export function LoginPage() {
 		},
 	})
 
-	const onSubmit = async (data: loginSchemaType) => {
+	const onSubmit = async (data: signInSchemaType) => {
 		handleSignIn(data)
 	}
 

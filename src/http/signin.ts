@@ -1,12 +1,12 @@
-import type { Login, User } from '@/domain/user/user-model'
+import type { SignInDTO, UserDTO } from '@/domain'
 import { ClientHttp } from './http-client'
 
 interface Response {
 	accessToken: string
-	user: User
+	user: UserDTO
 }
 
-export async function signIn(data: Login) {
+export async function signIn(data: SignInDTO) {
 	const res = await ClientHttp.post('login', {
 		json: {
 			...data,

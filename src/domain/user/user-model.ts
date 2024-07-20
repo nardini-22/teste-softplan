@@ -1,16 +1,16 @@
 import { z } from 'zod'
 
-export interface User {
+export interface UserDTO {
 	email: string
 	password: string
 	role: string
 }
 
-export type EditUserType = Partial<User>
+export type EditUserDTO = Partial<UserDTO>
 
-export type Login = Omit<User, 'role'>
+export type SignInDTO = Omit<UserDTO, 'role'>
 
-export const loginSchema = z.object({
+export const addUserSchema = z.object({
 	email: z.coerce
 		.string({
 			required_error: 'Esse campo não pode ficar vazio',
@@ -21,40 +21,24 @@ export const loginSchema = z.object({
 			required_error: 'Esse campo não pode ficar vazio',
 		})
 		.min(6, 'Esse campo não pode ter menos que 6 caracteres'),
-})
-
-export const addUserSchema = loginSchema.extend({
 	role: z.coerce.string().min(4, 'Esse não pode ficar vazio'),
 })
 
-export const editUserSchema = z.object({
-	email: z.coerce
-		.string({
-			required_error: 'Esse campo não pode ficar vazio',
-		})
-		.email({ message: 'Insira um email válido' }),
-	role: z.coerce.string().min(4, 'Esse não pode ficar vazio'),
-})
+export const signInSchema = addUserSchema.omit({ role: true })
 
-export const changePasswordSchema = z
-	.object({
-		password: z.coerce
-			.string({
-				required_error: 'Esse campo não pode ficar vazio',
-			})
-			.min(6, 'Esse campo não pode ter menos que 6 caracteres'),
-		confirm_password: z.coerce
-			.string({
-				required_error: 'Esse campo não pode ficar vazio',
-			})
-			.min(6, 'Esse campo não pode ter menos que 6 caracteres'),
+export const editUserSchema = addUserSchema.omit({ password: true })
+
+export const changePasswordSchema = addUserSchema
+	.pick({ password: true })
+	.extend({
+		confirm_password: z.coerce.string(),
 	})
 	.refine((data) => data.password === data.confirm_password, {
 		path: ['confirm_password'],
 		message: 'As senhas não são iguais',
 	})
 
-export type loginSchemaType = z.infer<typeof loginSchema>
+export type signInSchemaType = z.infer<typeof signInSchema>
 export type addUserSchemaType = z.infer<typeof addUserSchema>
 export type editUserSchemaType = z.infer<typeof editUserSchema>
 export type changePasswordSchemaType = z.infer<typeof changePasswordSchema>

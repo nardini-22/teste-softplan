@@ -10,7 +10,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui'
-import type { User } from '@/domain/user/user-model'
+import type { UserDTO } from '@/domain'
 import { useCookies } from '@/hooks/useCookies'
 import { getUsers } from '@/http/get-users'
 import { cn } from '@/lib/utils'
@@ -38,8 +38,8 @@ export const TableUsers = () => {
 	})
 
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-	const fallbackData: User[] = []
-	const columns: ColumnDef<User>[] = useMemo(
+	const fallbackData: UserDTO[] = []
+	const columns: ColumnDef<UserDTO>[] = useMemo(
 		() => [
 			{
 				header: 'Id do usuário',

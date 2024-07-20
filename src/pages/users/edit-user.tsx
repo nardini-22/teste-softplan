@@ -1,5 +1,5 @@
 import { Button, ControlledInput, ControlledSelect, DialogClose, DialogComponent, DialogFooter } from '@/components/ui'
-import { type EditUserType, editUserSchema, type editUserSchemaType } from '@/domain/user/user-model'
+import { type EditUserDTO, editUserSchema, type editUserSchemaType } from '@/domain'
 import { editUser } from '@/http/edit-user'
 import { getUser } from '@/http/get-user'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,7 +24,6 @@ export default function EditUser({ editId }: EditUserProps) {
 	} = useForm<editUserSchemaType>({
 		resolver: zodResolver(editUserSchema),
 		defaultValues: {
-			email: '',
 			role: '',
 		},
 	})
@@ -37,7 +36,7 @@ export default function EditUser({ editId }: EditUserProps) {
 	})
 
 	const { mutate: handleEditUser, isPending } = useMutation({
-		mutationFn: (data: EditUserType) => editUser(data, editId),
+		mutationFn: (data: EditUserDTO) => editUser(data, editId),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['table-users'],
