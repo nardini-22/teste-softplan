@@ -25,6 +25,7 @@ export default function EditUser({ editId }: EditUserProps) {
 		resolver: zodResolver(editUserSchema),
 		defaultValues: {
 			role: '',
+			email: '',
 		},
 	})
 	const queryClient = useQueryClient()
