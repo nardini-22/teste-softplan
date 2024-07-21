@@ -11,6 +11,7 @@
 		"coverage": "vitest run --coverage"
 	},
 	"dependencies": {
+		"@faker-js/faker": "^8.4.1",
 		"@hookform/resolvers": "^3.9.0",
 		"@radix-ui/react-avatar": "^1.1.0",
 		"@radix-ui/react-dialog": "^1.1.1",
@@ -38,6 +39,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.8.3",
+		"@testing-library/jest-dom": "^6.4.6",
 		"@testing-library/react": "^16.0.0",
 		"@types/js-cookie": "^3.0.6",
 		"@types/jwt-encode": "^1.0.3",

@@ -119,7 +119,7 @@ export const TableUsers = () => {
 					</TableHeader>
 					<TableBody>
 						{isFetching ? (
-							<SkeletonTableRow data-testid="loader" numberOfCol={3} />
+							<SkeletonTableRow data-testid="loader" numberOfCol={roleValidation ? 3 : 2} />
 						) : (
 							table.getRowModel().rows.map((row) => (
 								<TableRow key={row.id}>
