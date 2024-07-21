@@ -4,15 +4,13 @@
 
 ## ✏️ Introdução
 
-Repositório para Softplan referente a vaga de desenvolvedor Front-end PL. Criei uma aplicação que conta com um login simples, tabela de usuários com opção de CRUD para determinado perfil de usuário, controle do usuário logado por meio de [JWT](https://jwt.io/) e cookies. Escolhi vite como minha ferramenta de desenvolvimento de React por preferência pessoal e gosto, tentei ao máximo focar em deixar o código em boa qualidade, mantendo ele simples, fácil de ler, entender e alterar. Escolhi tailwind e shadcn/ui para facilitar o desenvolvimento de componentes e me deixar livre para focar em funcionalidades da aplicação. E por fim, escolhi vitest + react testing library para fazer os tests automatizados. Os repositório front-end e back-end desse teste estão separados para fazer o deploy dois dois projetos separadamente e evitar problemas futuros, o link da Api está na parte das features.
+Repositório para Softplan referente a vaga de desenvolvedor Front-end PL. Criei uma aplicação que conta com um login, tabela de usuários com opção de CRUD para determinado perfil de usuário, controle do usuário logado por meio de [JWT](https://jwt.io/) e cookies. Escolhi vite como minha ferramenta de desenvolvimento de React por preferência pessoal e gosto, foquei em deixar o código com boa qualidade, mantendo ele simples, fácil de ler, entender e alterar. Escolhi tailwind e shadcn/ui para facilitar o desenvolvimento de componentes e me deixar livre para focar nas regras de negócios da aplicação. E por fim, escolhi vitest + react testing library para fazer os testes automatizados. Os repositório front-end e back-end desse teste estão separados pois como a vaga é front-end, deixei as funcionalidades que serão julgadas no repositório principal e a api em outro, o link da Api para mais detalhes está na parte das features.
 
 ## 🌐 Demo
 
 https://teste-softplan.vercel.app/
 
 ## 📋 Features
-
-Algumas coisas que esse projeto faz:
 
 - [x] A aplicação conta com proteção por login e senha;
 - [x] 2 tipos de perfis (admin e user);
@@ -27,7 +25,7 @@ Algumas coisas que esse projeto faz:
 
 - [x] O usuário com acesso admin pode executar o CRUD de
 outros usuários e visualizar;
-- [x] O usuário com acesso USER poderá apenas visualizar os usuários do
+- [x] O usuário com acesso user poderá apenas visualizar os usuários do
 sistema.
 
 ## 💻 Tecnologias
