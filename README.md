@@ -10,6 +10,10 @@ Repositório para Softplan referente a vaga de desenvolvedor Front-end PL. Criei
 
 https://teste-softplan.vercel.app/
 
+## 👥 Login
+
+Para acessar a aplicação é necessário login e senha, já disponibilizei alguns usuários no "banco de dados" mockado. Caso queira entrar como `admin` pode acessar usando o login `admin@admin.com` e a senha `admin1234`. Agora, se quiser entrar como `user` pode utilizar o login `user2@user.com` e a senha `user2password`.
+
 ## 📋 Features
 
 - [x] A aplicação conta com proteção por login e senha;
