@@ -19,9 +19,8 @@ import {
 } from '@/components/ui'
 import type { UserDTO } from '@/domain'
 import { useCookies } from '@/hooks/useCookies'
-import { getUsers } from '@/http/get-users'
+import { useFetchUsers } from '@/hooks/useFetchUsers'
 import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
 import {
 	type ColumnDef,
 	type ColumnFiltersState,
@@ -40,10 +39,7 @@ export const TableUsers = () => {
 	const cookies = useCookies()
 	const roleValidation = cookies?.role === 'admin'
 
-	const { data: tableData, isFetching } = useQuery({
-		queryKey: ['table-users'],
-		queryFn: () => getUsers(),
-	})
+	const { data: tableData, isFetching } = useFetchUsers()
 
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 	const [pagination, setPagination] = useState({
@@ -123,7 +119,7 @@ export const TableUsers = () => {
 					</TableHeader>
 					<TableBody>
 						{isFetching ? (
-							<SkeletonTableRow numberOfCol={3} />
+							<SkeletonTableRow data-testid="loader" numberOfCol={3} />
 						) : (
 							table.getRowModel().rows.map((row) => (
 								<TableRow key={row.id}>

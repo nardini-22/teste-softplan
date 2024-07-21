@@ -6,7 +6,7 @@ interface SkeletonTableRowProps {
 
 function SkeletonTableRow({ numberOfCol = 1 }: SkeletonTableRowProps) {
 	return (
-		<TableRow>
+		<TableRow data-testid="loader">
 			{Array.from({ length: numberOfCol }).map((_, i: number) => {
 				return (
 					<TableCell key={i}>
