@@ -1,5 +1,7 @@
-import { render } from '@testing-library/react'
+import { faker } from '@faker-js/faker'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Cookies from 'js-cookie'
+import jwtEncode from 'jwt-encode'
 import React from 'react'
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useFetchUsers } from '../src/hooks/useFetchUsers'
@@ -54,4 +56,60 @@ describe('Table Users', () => {
 		const { queryByText } = makeSut(<TableUsers />)
 		expect(queryByText('Adicionar usuário'))
 	})
+
+	it("shouldn't render action column if email = jwt email", () => {
+		const jwtPayload = { sub: 1, email: faker.internet.email(), role: 'admin' }
+		const jwt = jwtEncode(jwtPayload, 'token')
+		;(Cookies.get as Mock).mockReturnValue(jwt)
+		mocks.useFetchUsers.mockImplementation(() => ({
+			data: [
+				{
+					...jwtPayload,
+					id: jwtPayload.sub,
+				},
+			],
+		}))
+		const { queryByTestId } = makeSut(<TableUsers />)
+		expect(queryByTestId('action')).toBeFalsy()
+	})
+})
+
+it('should render action column if email != jwt email', () => {
+	const jwtPayload = { sub: 1, email: faker.internet.email(), role: 'admin' }
+	const jwt = jwtEncode(jwtPayload, 'token')
+	;(Cookies.get as Mock).mockReturnValue(jwt)
+	mocks.useFetchUsers.mockImplementation(() => ({
+		data: [
+			{
+				...jwtPayload,
+				email: 'teste@teste.com',
+				id: 2,
+			},
+		],
+	}))
+	const { queryByTestId } = makeSut(<TableUsers />)
+	expect(queryByTestId('action')).toBeTruthy()
+})
+
+it('should render exact number of rows depending on page, due to pagination', () => {
+	const createMockUser = () => {
+		return {
+			id: faker.number.int(),
+			email: faker.internet.email(),
+			role: faker.helpers.arrayElement(['admin', 'user']),
+		}
+	}
+	const users = faker.helpers.multiple(createMockUser, {
+		count: 6,
+	})
+	mocks.useFetchUsers.mockImplementation(() => ({
+		data: users,
+	}))
+	const { getAllByTestId } = makeSut(<TableUsers />)
+	expect(getAllByTestId('table-body-row')).toHaveLength(5)
+
+	const paginationNextButton = screen.getByTestId('pagination-next-button')
+	fireEvent.click(paginationNextButton)
+
+	expect(getAllByTestId('table-body-row')).toHaveLength(1)
 })

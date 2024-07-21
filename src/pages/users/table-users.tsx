@@ -63,7 +63,7 @@ export const TableUsers = () => {
 					const userValidation = row.getValue('id') !== Number(cookies?.sub)
 					return (
 						userValidation && (
-							<div className="flex gap-2">
+							<div data-testid="action" className="flex gap-2">
 								<EditUser editId={row.getValue('id')} />
 								<DeleteUser deleteId={row.getValue('id')} userEmail={row.getValue('email')} />
 							</div>
@@ -122,7 +122,7 @@ export const TableUsers = () => {
 							<SkeletonTableRow data-testid="loader" numberOfCol={roleValidation ? 3 : 2} />
 						) : (
 							table.getRowModel().rows.map((row) => (
-								<TableRow key={row.id}>
+								<TableRow data-testid="table-body-row" key={row.id}>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
 									))}
@@ -148,7 +148,11 @@ export const TableUsers = () => {
 									<PaginationPrevious onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
 								</PaginationItem>
 								<PaginationItem>
-									<PaginationNext onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} />
+									<PaginationNext
+										data-testid="pagination-next-button"
+										onClick={() => table.nextPage()}
+										disabled={!table.getCanNextPage()}
+									/>
 								</PaginationItem>
 								<PaginationItem>
 									<PaginationLastPage onClick={() => table.lastPage()} disabled={!table.getCanNextPage()} />
