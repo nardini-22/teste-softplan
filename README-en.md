@@ -9,14 +9,6 @@ I chose Vite as my React development tool due to personal preference and fondnes
 and allow me to concentrate on the application's business logic. Lastly, I chose Vitest + React Testing Library for automated testing. The front-end and back-end repositories for this test are separate because, as the position is for front-end development, 
 I kept the functionalities to be evaluated in the main repository and the API in another. The link to the API for more details is in the features section.
 
-## 🌐 Demo
-
-https://teste-softplan.vercel.app/
-
-## 👥 Login
-
-To access the application, a username and password are required. I have already provided some users in the mock database. If you want to log in as an `admin`, you can use the username `admin@admin.com` and the password `admin1234`. Alternatively, if you want to log in as a `user`, you can use the username `user2@user.com` and the password `user2password`.
-
 ## 📋 Features
 
 - [x] The application includes login and password protection;
@@ -70,6 +62,13 @@ $ npm run dev
 # In case you want to run tests
 $ npm run test
 ```
+
+## 🌐 Demo
+To access the application, a username and password are required. I have already provided some users in the mock database. If you want to log in as an `admin`, you can use the username `admin@admin.com` and the password `admin1234`. Alternatively, if you want to log in as a `user`, you can use the username `user2@user.com` and the password `user2password`.
+
+https://teste-softplan.vercel.app/
+
+https://github.com/user-attachments/assets/3cbabf2a-0ad8-45f0-9bc6-4bedeaeef16b
 
 ## ❤️ Enjoy this project? 
 Developed by Arthur Nardini.
