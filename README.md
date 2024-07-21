@@ -1,6 +1,6 @@
 # Teste Softplan
 
-[![en](https://img.shields.io/badge/README-English-red.svg)](https://github.com/nardini-22/teste-softplan/blob/master/README-en.md)
+[![en](https://img.shields.io/badge/README-English-red.svg)](https://github.com/nardini-22/teste-softplan/blob/main/README-en.md)
 
 ## ✏️ Introdução
 
