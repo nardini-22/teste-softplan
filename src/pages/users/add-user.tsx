@@ -7,7 +7,7 @@ import {
 	DialogComponent,
 	DialogFooter,
 } from '@/components/ui'
-import { type UserDTO, addUserSchema, type addUserSchemaType } from '@/domain/user/user-model'
+import { type AddUserDto, addUserSchema, type addUserSchemaType } from '@/domain/user/user-model'
 import { addUser } from '@/http/add-user'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -40,7 +40,7 @@ const AddUser = () => {
 	const queryClient = useQueryClient()
 
 	const { mutate: handleAddUser, isPending } = useMutation({
-		mutationFn: (data: UserDTO) => addUser(data),
+		mutationFn: (data: AddUserDto) => addUser(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({
 				queryKey: ['table-users'],

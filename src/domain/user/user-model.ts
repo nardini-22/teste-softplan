@@ -4,11 +4,14 @@ export interface UserDTO {
 	email: string
 	password: string
 	role: string
+	id: number
 }
+
+export type AddUserDto = Omit<UserDTO, 'id'>
 
 export type EditUserDTO = Partial<UserDTO>
 
-export type SignInDTO = Omit<UserDTO, 'role'>
+export type SignInDTO = Omit<UserDTO, 'role' | 'id'>
 
 export const addUserSchema = z.object({
 	email: z.coerce

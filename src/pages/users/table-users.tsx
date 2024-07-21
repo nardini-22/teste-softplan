@@ -1,5 +1,6 @@
 import SkeletonTableRow from '@/components/skeleton-table-row'
 import {
+	Badge,
 	Card,
 	CardContent,
 	Input,
@@ -58,14 +59,19 @@ export const TableUsers = () => {
 				accessorKey: 'email',
 			},
 			{
+				header: 'Perfil do usuário',
+				id: 'role',
+				cell: ({ row }) => <Badge variant="outline">{row.original.role}</Badge>,
+			},
+			{
 				id: 'actions',
 				cell: ({ row }) => {
-					const userValidation = row.getValue('id') !== Number(cookies?.sub)
+					const userValidation = row.original.id !== Number(cookies?.sub)
 					return (
 						userValidation && (
 							<div data-testid="action" className="flex gap-2">
-								<EditUser editId={row.getValue('id')} />
-								<DeleteUser deleteId={row.getValue('id')} userEmail={row.getValue('email')} />
+								<EditUser editId={row.original.id} />
+								<DeleteUser deleteId={row.original.id} userEmail={row.original.email} />
 							</div>
 						)
 					)
