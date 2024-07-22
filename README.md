@@ -1,14 +1,11 @@
 # Teste Softplan
 
-[![en](https://img.shields.io/badge/README-English-red.svg)](https://github.com/nardini-22/teste-softplan/blob/master/README-en.md)
+[![en](https://img.shields.io/badge/README-English-red.svg)](https://github.com/nardini-22/teste-softplan/blob/main/README-en.md)
 
 ## ✏️ Introdução
 
 Repositório para Softplan referente a vaga de desenvolvedor Front-end PL. Criei uma aplicação que conta com um login, tabela de usuários com opção de CRUD para determinado perfil de usuário, controle do usuário logado por meio de [JWT](https://jwt.io/) e cookies. Escolhi vite como minha ferramenta de desenvolvimento de React por preferência pessoal e gosto, foquei em deixar o código com boa qualidade, mantendo ele simples, fácil de ler, entender e alterar. Escolhi tailwind e shadcn/ui para facilitar o desenvolvimento de componentes e me deixar livre para focar nas regras de negócios da aplicação. E por fim, escolhi vitest + react testing library para fazer os testes automatizados. Os repositório front-end e back-end desse teste estão separados pois como a vaga é front-end, deixei as funcionalidades que serão julgadas no repositório principal e a api em outro, o link da Api para mais detalhes está na parte das features.
 
-## 🌐 Demo
-
-https://teste-softplan.vercel.app/
 
 ## 📋 Features
 
@@ -65,6 +62,12 @@ $ npm run dev
 $ npm run test
 ```
 
+## 🌐 Demo
+Para acessar a aplicação é necessário login e senha, já disponibilizei alguns usuários no "banco de dados" mockado. Caso queira entrar como `admin` pode acessar usando o login `admin@admin.com` e a senha `admin1234`. Agora, se quiser entrar como `user` pode utilizar o login `user2@user.com` e a senha `user2password`.
+
+https://teste-softplan.vercel.app/
+
+https://github.com/user-attachments/assets/3d9d9186-4dfa-439d-9497-c0a6ad6415ef
 
 
  ## ❤️ Gostou desse projeto? 
