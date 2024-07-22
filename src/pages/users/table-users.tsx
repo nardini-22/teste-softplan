@@ -21,6 +21,7 @@ import {
 import type { UserDTO } from '@/domain'
 import { useCookies } from '@/hooks/useCookies'
 import { useFetchUsers } from '@/hooks/useFetchUsers'
+import capitalizeFirstLetter from '@/lib/capitalize-first-letter'
 import { cn } from '@/lib/utils'
 import {
 	type ColumnDef,
@@ -61,7 +62,7 @@ export const TableUsers = () => {
 			{
 				header: 'Perfil do usuário',
 				id: 'role',
-				cell: ({ row }) => <Badge variant="outline">{row.original.role}</Badge>,
+				cell: ({ row }) => <Badge variant="outline">{capitalizeFirstLetter(row.original.role)}</Badge>,
 			},
 			{
 				id: 'actions',

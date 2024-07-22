@@ -14,6 +14,7 @@ import {
 import { type EditUserDTO, changePasswordSchema, type changePasswordSchemaType } from '@/domain/user/user-model'
 import { useCookies } from '@/hooks/useCookies'
 import { editUser } from '@/http/edit-user'
+import capitalizeFirstLetter from '@/lib/capitalize-first-letter'
 import getUserAvatar from '@/lib/get-user-avatar'
 import { logout } from '@/lib/logout'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -83,7 +84,10 @@ export const MyAccountPage = () => {
 								<span className="text-[40px]">{getUserAvatar(cookies?.email)}</span>
 							</AvatarFallback>
 						</Avatar>
-						<p className="font-bold">{cookies?.email}</p>
+						<div className="flex flex-col gap-2 items-center">
+							<p className="font-bold">{cookies?.email}</p>
+							<p>{capitalizeFirstLetter(cookies?.role)}</p>
+						</div>
 					</div>
 					<form className="py-5" onSubmit={handleSubmit(onSubmit)}>
 						<ControlledInputPassword
